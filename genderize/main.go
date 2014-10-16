@@ -19,6 +19,7 @@ const (
 func main() {
 	app := cli.NewApp()
 	app.Name = "genderize"
+	app.Usage = "a command line interface for genderize.io"
 	app.Version = "0.1"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{filenameFlag, "", "the optional filename to read names from (one request)", ""},
@@ -36,6 +37,11 @@ func checkErr(err error) {
 
 func Run(c *cli.Context) {
 	names := c.Args()
+
+	if len(names) == 0 {
+		cli.ShowAppHelp(c)
+		os.Exit(1)
+	}
 
 	filename := c.String(filenameFlag)
 	if filename != "" {
